@@ -1,0 +1,140 @@
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card } from '@/components/ui/card';
+import Icon from '@/components/ui/icon';
+import { Language, BrowserFingerprint, Translations } from './types';
+import { collectFingerprint } from './FingerprintUtils';
+
+interface AgreementFormProps {
+  language: Language;
+  translations: Translations;
+  onFingerprintCollected?: (fingerprint: BrowserFingerprint) => void;
+}
+
+const AgreementForm: React.FC<AgreementFormProps> = ({ 
+  language, 
+  translations: t, 
+  onFingerprintCollected 
+}) => {
+  const [isAgreed, setIsAgreed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fingerprint, setFingerprint] = useState<BrowserFingerprint | null>(null);
+
+  const handleAccept = async () => {
+    if (!isAgreed || isLoading) return;
+
+    setIsLoading(true);
+    
+    try {
+      const fingerprintData = await collectFingerprint();
+      setFingerprint(fingerprintData);
+      onFingerprintCollected?.(fingerprintData);
+      
+      // Отправка на backend
+      const response = await fetch('/api/terms/accept', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          accepted: true,
+          ...fingerprintData,
+        }),
+      });
+
+      if (response.ok) {
+        // Закрытие WebApp если доступно
+        try {
+          // @ts-ignore
+          if (window.Telegram?.WebApp?.close) {
+            // @ts-ignore
+            window.Telegram.WebApp.close();
+          }
+        } catch (error) {
+          alert(t.agreementAccepted);
+        }
+      } else {
+        throw new Error('Failed to send data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert(t.errorSending);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <>
+      {/* Чекбокс согласия */}
+      <div className="flex items-start space-x-3 mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg bg-naga-teal/10 border border-naga-teal/20">
+        <Checkbox
+          id="agreement"
+          checked={isAgreed}
+          onCheckedChange={(checked) => setIsAgreed(checked as boolean)}
+          className="data-[state=checked]:bg-naga-teal data-[state=checked]:border-naga-teal mt-1 flex-shrink-0"
+        />
+        <label
+          htmlFor="agreement"
+          className="text-gray-200 text-xs sm:text-sm leading-relaxed cursor-pointer flex-1"
+        >
+          {t.checkboxText}
+        </label>
+      </div>
+
+      {/* Кнопка продолжить */}
+      <div className="flex justify-center">
+        <Button
+          onClick={handleAccept}
+          disabled={!isAgreed || isLoading}
+          className={`
+            px-6 sm:px-8 py-2.5 sm:py-3 text-base sm:text-lg font-semibold rounded-lg transition-all duration-300 w-full sm:w-auto
+            ${
+              !isAgreed
+                ? 'bg-gray-600 text-gray-400 cursor-not-allowed opacity-50'
+                : 'bg-naga-teal hover:bg-naga-teal/80 text-white hover:shadow-lg hover:scale-105'
+            }
+          `}
+        >
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <Icon name="Loader2" className="animate-spin mr-2" size={20} />
+              {t.processing}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center">
+              <Icon name="Check" className="mr-2" size={20} />
+              {t.continueButton}
+            </div>
+          )}
+        </Button>
+      </div>
+
+      {/* Информация о безопасности */}
+      <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg bg-naga-gold/10 border border-naga-gold/20">
+        <div className="flex items-start space-x-3">
+          <Icon name="Shield" className="text-naga-gold mt-1 flex-shrink-0" size={20} />
+          <div className="text-xs sm:text-sm text-gray-300">
+            <p className="font-semibold text-naga-gold mb-1">{t.securityTitle}</p>
+            <p>{t.securityText}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Debug информация (только для разработки) */}
+      {fingerprint && process.env.NODE_ENV === 'development' && (
+        <Card className="mt-6 sm:mt-8 bg-gray-800/90 border-red-500/30">
+          <div className="p-3 sm:p-4">
+            <h3 className="text-red-400 font-semibold mb-2 text-sm">{t.debugTitle}</h3>
+            <pre className="text-xs text-gray-300 overflow-auto max-h-40">
+              {JSON.stringify(fingerprint, null, 2)}
+            </pre>
+          </div>
+        </Card>
+      )}
+    </>
+  );
+};
+
+export default AgreementForm;
