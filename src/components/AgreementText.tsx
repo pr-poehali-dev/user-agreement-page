@@ -20,9 +20,10 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
       if (!scrollElement) return;
 
       const { scrollTop, scrollHeight, clientHeight } = scrollElement;
-      const isAtEnd = scrollTop + clientHeight >= scrollHeight - 10; // 10px tolerance
+      const tolerance = 10;
+      const scrolledToEnd = scrollTop + clientHeight >= scrollHeight - tolerance;
       
-      if (isAtEnd && !isScrolledToEnd) {
+      if (scrolledToEnd && !isScrolledToEnd) {
         setIsScrolledToEnd(true);
         setShowScrollHint(false);
         onScrolledToEnd(true);
@@ -32,21 +33,23 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
     const scrollElement = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
     if (scrollElement) {
       scrollElement.addEventListener('scroll', checkScrollEnd);
-      // Check initial state
-      setTimeout(checkScrollEnd, 100);
+      checkScrollEnd(); // Проверяем сразу
       
       return () => scrollElement.removeEventListener('scroll', checkScrollEnd);
     }
   }, [isScrolledToEnd, onScrolledToEnd]);
 
+  const agreementText = getAgreementText(language);
+
   return (
-    <div className="relative mb-4 sm:mb-6">
-      <ScrollArea 
-        ref={scrollAreaRef}
-        className="h-[40vh] sm:h-[50vh] rounded-lg border border-naga-teal/20 bg-gray-900/50 p-3 sm:p-4"
-      >
-        <div className="text-gray-200 leading-relaxed whitespace-pre-line text-xs sm:text-sm pr-2">
-          {getAgreementText(language)}
+    <div className="relative mb-4">
+      <ScrollArea className="h-40 sm:h-48 w-full rounded-md border border-gray-600" ref={scrollAreaRef}>
+        <div className="p-3 sm:p-4 text-xs sm:text-sm text-gray-300 leading-relaxed space-y-3 sm:space-y-4">
+          {agreementText.split('\n\n').map((paragraph, index) => (
+            <p key={index} className="text-justify">
+              {paragraph.trim()}
+            </p>
+          ))}
         </div>
       </ScrollArea>
       

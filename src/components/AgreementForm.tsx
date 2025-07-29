@@ -33,34 +33,26 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
       setFingerprint(fingerprintData);
       onFingerprintCollected?.(fingerprintData);
       
-      // Отправка на backend
       const response = await fetch('/api/terms/accept', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          accepted: true,
-          ...fingerprintData,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accepted: true, ...fingerprintData }),
       });
 
       if (response.ok) {
-        // Закрытие WebApp если доступно
         try {
           // @ts-ignore
           if (window.Telegram?.WebApp?.close) {
             // @ts-ignore
             window.Telegram.WebApp.close();
           }
-        } catch (error) {
+        } catch {
           alert(t.agreementAccepted);
         }
       } else {
         throw new Error('Failed to send data');
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } catch {
       alert(t.errorSending);
     } finally {
       setIsLoading(false);
@@ -72,7 +64,6 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
 
   return (
     <>
-      {/* Уведомление о необходимости прочтения */}
       {!isScrolledToEnd && (
         <div className="mb-4 p-3 sm:p-4 rounded-lg bg-amber-500/10 border border-amber-500/30">
           <div className="flex items-center space-x-2 text-amber-400">
@@ -87,7 +78,6 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         </div>
       )}
 
-      {/* Чекбокс согласия */}
       <div className={`
         flex items-start space-x-3 mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg border transition-all duration-300
         ${canAgree 
@@ -122,7 +112,6 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         </label>
       </div>
 
-      {/* Кнопка продолжить */}
       <div className="flex justify-center mb-4 sm:mb-6">
         <Button
           onClick={handleAccept}
@@ -150,7 +139,6 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         </Button>
       </div>
 
-      {/* Информация о безопасности */}
       <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg bg-naga-gold/10 border border-naga-gold/20">
         <div className="flex items-start space-x-2 sm:space-x-3">
           <Icon name="Shield" className="text-naga-gold mt-0.5 flex-shrink-0" size={16} />
@@ -161,7 +149,6 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         </div>
       </div>
 
-      {/* Debug информация (только для разработки) */}
       {fingerprint && process.env.NODE_ENV === 'development' && (
         <Card className="mt-4 sm:mt-6 bg-gray-800/90 border-red-500/30">
           <div className="p-3 sm:p-4">
