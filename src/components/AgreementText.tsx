@@ -53,7 +53,7 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
       {/* Индикатор прокрутки */}
       {showScrollHint && (
         <div className="absolute bottom-2 right-2 bg-naga-teal/90 text-white px-2 py-1 rounded-md text-xs flex items-center animate-pulse">
-          <Icon name="ArrowDown" size={12} className="mr-1" />
+          <Icon name="ArrowDown" size={12} className="mr-1 hidden sm:block" />
           <span className="hidden sm:inline">Прокрутите до конца</span>
           <span className="sm:hidden">↓</span>
         </div>
@@ -62,7 +62,7 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
       {/* Индикатор завершения чтения */}
       {isScrolledToEnd && (
         <div className="absolute bottom-2 right-2 bg-green-500/90 text-white px-2 py-1 rounded-md text-xs flex items-center">
-          <Icon name="Check" size={12} className="mr-1" />
+          <Icon name="Check" size={12} className="mr-1 hidden sm:block" />
           <span className="hidden sm:inline">Прочитано</span>
           <span className="sm:hidden">✓</span>
         </div>
