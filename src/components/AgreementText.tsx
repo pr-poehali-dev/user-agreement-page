@@ -43,7 +43,7 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
 
   return (
     <div className="relative mb-6">
-      <ScrollArea className="h-64 sm:h-80 lg:h-96 w-full rounded-lg border border-gray-500/50 bg-gray-900/50 backdrop-blur-sm shadow-lg" ref={scrollAreaRef}>
+      <ScrollArea className="h-[60vh] sm:h-[65vh] lg:h-[70vh] w-full rounded-lg border border-gray-500/50 bg-gray-900/50 backdrop-blur-sm shadow-lg" ref={scrollAreaRef}>
         <div className="p-4 sm:p-6 lg:p-8 text-sm sm:text-base lg:text-lg text-gray-100 leading-relaxed space-y-4 sm:space-y-5 lg:space-y-6">
           {agreementText.split('\n\n').map((paragraph, index) => (
             <p key={index} className="text-justify first-letter:text-xl first-letter:font-semibold first-letter:text-naga-teal">
