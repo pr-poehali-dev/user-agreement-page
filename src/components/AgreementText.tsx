@@ -42,11 +42,11 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
   const agreementText = getAgreementText(language);
 
   return (
-    <div className="relative mb-4">
-      <ScrollArea className="h-40 sm:h-48 w-full rounded-md border border-gray-600" ref={scrollAreaRef}>
-        <div className="p-3 sm:p-4 text-xs sm:text-sm text-gray-300 leading-relaxed space-y-3 sm:space-y-4">
+    <div className="relative mb-6">
+      <ScrollArea className="h-64 sm:h-80 lg:h-96 w-full rounded-lg border border-gray-500/50 bg-gray-900/50 backdrop-blur-sm shadow-lg" ref={scrollAreaRef}>
+        <div className="p-4 sm:p-6 lg:p-8 text-sm sm:text-base lg:text-lg text-gray-100 leading-relaxed space-y-4 sm:space-y-5 lg:space-y-6">
           {agreementText.split('\n\n').map((paragraph, index) => (
-            <p key={index} className="text-justify">
+            <p key={index} className="text-justify first-letter:text-xl first-letter:font-semibold first-letter:text-naga-teal">
               {paragraph.trim()}
             </p>
           ))}
@@ -55,8 +55,8 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
       
       {/* Индикатор прокрутки */}
       {showScrollHint && (
-        <div className="absolute bottom-2 right-2 bg-naga-teal/90 text-white px-2 py-1 rounded-md text-xs flex items-center animate-pulse">
-          <Icon name="ArrowDown" size={12} className="mr-1 hidden sm:block" />
+        <div className="absolute bottom-3 right-3 bg-naga-teal/95 text-white px-3 py-2 rounded-lg text-sm flex items-center animate-pulse shadow-lg backdrop-blur-sm">
+          <Icon name="ArrowDown" size={14} className="mr-2 hidden sm:block" />
           <span className="hidden sm:inline">Прокрутите до конца</span>
           <span className="sm:hidden">↓</span>
         </div>
@@ -64,8 +64,8 @@ const AgreementText: React.FC<AgreementTextProps> = ({ language, onScrolledToEnd
       
       {/* Индикатор завершения чтения */}
       {isScrolledToEnd && (
-        <div className="absolute bottom-2 right-2 bg-green-500/90 text-white px-2 py-1 rounded-md text-xs flex items-center">
-          <Icon name="Check" size={12} className="mr-1 hidden sm:block" />
+        <div className="absolute bottom-3 right-3 bg-green-500/95 text-white px-3 py-2 rounded-lg text-sm flex items-center shadow-lg backdrop-blur-sm">
+          <Icon name="Check" size={14} className="mr-2 hidden sm:block" />
           <span className="hidden sm:inline">Прочитано</span>
           <span className="sm:hidden">✓</span>
         </div>

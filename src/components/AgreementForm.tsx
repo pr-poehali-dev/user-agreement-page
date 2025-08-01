@@ -65,10 +65,10 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
   return (
     <>
       {!isScrolledToEnd && (
-        <div className="mb-4 p-3 sm:p-4 rounded-lg bg-amber-500/10 border border-amber-500/30">
-          <div className="flex items-center space-x-2 text-amber-400">
-            <Icon name="Info" size={16} className="flex-shrink-0" />
-            <p className="text-xs sm:text-sm">
+        <div className="mb-6 p-4 sm:p-5 rounded-xl bg-amber-500/15 border border-amber-500/40 shadow-lg backdrop-blur-sm">
+          <div className="flex items-center space-x-3 text-amber-300">
+            <Icon name="Info" size={18} className="flex-shrink-0" />
+            <p className="text-sm sm:text-base font-medium">
               {language === 'ru' 
                 ? 'Для продолжения необходимо ознакомиться со всем текстом соглашения'
                 : 'Please read the entire agreement text to continue'
@@ -79,9 +79,9 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
       )}
 
       <div className={`
-        flex items-start space-x-3 mb-4 sm:mb-6 p-3 sm:p-4 rounded-lg border transition-all duration-300
+        flex items-start space-x-4 mb-6 sm:mb-8 p-4 sm:p-6 rounded-xl border transition-all duration-300 shadow-lg backdrop-blur-sm
         ${canAgree 
-          ? 'bg-naga-teal/10 border-naga-teal/20' 
+          ? 'bg-naga-teal/15 border-naga-teal/30' 
           : 'bg-gray-600/10 border-gray-600/20 opacity-50'
         }
       `}>
@@ -91,7 +91,7 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
           disabled={!canAgree}
           onCheckedChange={(checked) => canAgree && setIsAgreed(checked as boolean)}
           className={`
-            mt-1 flex-shrink-0 transition-all duration-200
+            mt-0.5 flex-shrink-0 transition-all duration-200 scale-110
             ${canAgree 
               ? 'data-[state=checked]:bg-naga-teal data-[state=checked]:border-naga-teal cursor-pointer'
               : 'opacity-50 cursor-not-allowed'
@@ -101,7 +101,7 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         <label
           htmlFor="agreement"
           className={`
-            text-xs sm:text-sm leading-relaxed flex-1 transition-all duration-200
+            text-sm sm:text-base leading-relaxed flex-1 transition-all duration-200 font-medium
             ${canAgree 
               ? 'text-gray-200 cursor-pointer' 
               : 'text-gray-400 cursor-not-allowed'
@@ -112,12 +112,12 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         </label>
       </div>
 
-      <div className="flex justify-center mb-4 sm:mb-6">
+      <div className="flex justify-center mb-6 sm:mb-8">
         <Button
           onClick={handleAccept}
           disabled={!canProceed || isLoading}
           className={`
-            px-4 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-lg font-semibold rounded-lg transition-all duration-300 w-full sm:w-auto
+            px-6 sm:px-10 py-3 sm:py-4 text-base sm:text-xl font-semibold rounded-xl transition-all duration-300 w-full sm:w-auto shadow-lg
             ${
               !canProceed
                 ? 'bg-gray-600 text-gray-400 cursor-not-allowed opacity-50'
@@ -127,23 +127,23 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
         >
           {isLoading ? (
             <div className="flex items-center justify-center">
-              <Icon name="Loader2" className="animate-spin mr-2" size={18} />
+              <Icon name="Loader2" className="animate-spin mr-3" size={20} />
               <span className="text-sm sm:text-base">{t.processing}</span>
             </div>
           ) : (
             <div className="flex items-center justify-center">
-              <Icon name="Check" className="mr-2" size={18} />
+              <Icon name="Check" className="mr-3" size={20} />
               <span className="text-sm sm:text-base">{t.continueButton}</span>
             </div>
           )}
         </Button>
       </div>
 
-      <div className="mt-4 sm:mt-6 p-3 sm:p-4 rounded-lg bg-naga-gold/10 border border-naga-gold/20">
-        <div className="flex items-start space-x-2 sm:space-x-3">
-          <Icon name="Shield" className="text-naga-gold mt-0.5 flex-shrink-0" size={16} />
-          <div className="text-xs sm:text-sm text-gray-300">
-            <p className="font-semibold text-naga-gold mb-1">{t.securityTitle}</p>
+      <div className="mt-6 sm:mt-8 p-4 sm:p-6 rounded-xl bg-naga-gold/15 border border-naga-gold/30 shadow-lg backdrop-blur-sm">
+        <div className="flex items-start space-x-3 sm:space-x-4">
+          <Icon name="Shield" className="text-naga-gold mt-1 flex-shrink-0" size={18} />
+          <div className="text-sm sm:text-base text-gray-200">
+            <p className="font-semibold text-naga-gold mb-2 text-base sm:text-lg">{t.securityTitle}</p>
             <p className="leading-relaxed">{t.securityText}</p>
           </div>
         </div>
