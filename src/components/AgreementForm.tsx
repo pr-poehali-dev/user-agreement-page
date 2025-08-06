@@ -66,15 +66,15 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
 
   if (isCompleted) {
     return (
-      <div className="text-center space-y-6">
-        <div className="mx-auto w-16 h-16 bg-naga-teal/20 rounded-full flex items-center justify-center">
-          <Icon name="Check" className="text-naga-teal" size={32} />
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-black text-center space-y-8">
+        <div className="mx-auto w-24 h-24 bg-naga-teal/20 rounded-full flex items-center justify-center border-2 border-naga-teal/40">
+          <Icon name="Check" className="text-naga-teal" size={48} />
         </div>
-        <div className="space-y-3">
-          <h3 className="text-xl font-semibold text-gray-200">
+        <div className="space-y-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-100">
             {language === 'ru' ? 'Соглашение подтверждено' : 'Agreement confirmed'}
-          </h3>
-          <p className="text-gray-400 text-base">
+          </h1>
+          <p className="text-gray-400 text-xl sm:text-2xl">
             {language === 'ru' 
               ? 'Вы можете закрыть это окно'
               : 'You can close this window'
