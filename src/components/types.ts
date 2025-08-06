@@ -32,5 +32,4 @@ export interface Translations {
   footerText: string;
   agreementAccepted: string;
   errorSending: string;
-  debugTitle: string;
 }

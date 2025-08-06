@@ -71,17 +71,7 @@ const Index = () => {
           </p>
         </div>
 
-        {/* Debug информация (только для разработки) */}
-        {fingerprint && process.env.NODE_ENV === 'development' && (
-          <Card className="mt-4 sm:mt-6 bg-gray-800/90 border-red-500/30">
-            <div className="p-3 sm:p-4">
-              <h3 className="text-red-400 font-semibold mb-2 text-xs sm:text-sm">{t.debugTitle}</h3>
-              <pre className="text-xs text-gray-300 overflow-auto max-h-32 sm:max-h-40">
-                {JSON.stringify(fingerprint, null, 2)}
-              </pre>
-            </div>
-          </Card>
-        )}
+
       </div>
     </div>
   );

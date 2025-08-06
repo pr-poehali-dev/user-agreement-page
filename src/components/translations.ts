@@ -12,8 +12,8 @@ export const translations: Record<Language, Translations> = {
     copyrightText: '© 2024 Naga Exchange. Все права защищены.',
     footerText: 'Надежный обмен цифровых валют под защитой дракона',
     agreementAccepted: 'Согласие принято! Данные отправлены.',
-    errorSending: 'Ошибка отправки данных. Попробуйте еще раз.',
-    debugTitle: 'Debug: Собранные данные'
+    errorSending: 'Ошибка отправки данных. Попробуйте еще раз.'
+
   },
   en: {
     title: 'User Agreement',
@@ -26,8 +26,7 @@ export const translations: Record<Language, Translations> = {
     copyrightText: '© 2024 Naga Exchange. All rights reserved.',
     footerText: 'Reliable digital currency exchange under dragon protection',
     agreementAccepted: 'Agreement accepted! Data sent.',
-    errorSending: 'Error sending data. Please try again.',
-    debugTitle: 'Debug: Collected Data'
+    errorSending: 'Error sending data. Please try again.'
   }
 };
 
