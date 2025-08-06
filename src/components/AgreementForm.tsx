@@ -66,7 +66,7 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
 
   if (isCompleted) {
     return (
-      <div className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-black text-center space-y-8">
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-naga-dark via-gray-900 to-naga-charcoal text-center space-y-8">
         <div className="mx-auto w-24 h-24 bg-naga-teal/20 rounded-full flex items-center justify-center border-2 border-naga-teal/40">
           <Icon name="Check" className="text-naga-teal" size={48} />
         </div>
