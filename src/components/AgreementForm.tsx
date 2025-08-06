@@ -21,6 +21,7 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
 }) => {
   const [isAgreed, setIsAgreed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [fingerprint, setFingerprint] = useState<BrowserFingerprint | null>(null);
 
   const handleAccept = async () => {
@@ -40,20 +41,21 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
       });
 
       if (response.ok) {
-        try {
-          // @ts-ignore
-          if (window.Telegram?.WebApp?.close) {
+        setIsCompleted(true);
+        setTimeout(() => {
+          try {
             // @ts-ignore
-            window.Telegram.WebApp.close();
+            if (window.Telegram?.WebApp?.close) {
+              // @ts-ignore
+              window.Telegram.WebApp.close();
+            }
+          } catch {
+            // Тихо игнорируем если не Telegram
           }
-        } catch {
-          alert(t.agreementAccepted);
-        }
-      } else {
-        throw new Error('Failed to send data');
+        }, 2000);
       }
     } catch {
-      alert(t.errorSending);
+      // Тихо игнорируем ошибки
     } finally {
       setIsLoading(false);
     }
@@ -61,6 +63,27 @@ const AgreementForm: React.FC<AgreementFormProps> = ({
 
   const canAgree = isScrolledToEnd;
   const canProceed = isAgreed && isScrolledToEnd;
+
+  if (isCompleted) {
+    return (
+      <div className="text-center space-y-6">
+        <div className="mx-auto w-16 h-16 bg-naga-teal/20 rounded-full flex items-center justify-center">
+          <Icon name="Check" className="text-naga-teal" size={32} />
+        </div>
+        <div className="space-y-3">
+          <h3 className="text-xl font-semibold text-gray-200">
+            {language === 'ru' ? 'Соглашение подтверждено' : 'Agreement confirmed'}
+          </h3>
+          <p className="text-gray-400 text-base">
+            {language === 'ru' 
+              ? 'Вы можете закрыть это окно'
+              : 'You can close this window'
+            }
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
